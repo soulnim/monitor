@@ -1,6 +1,6 @@
 # Project: Monitor
 ### Intro:
-Hi, the purpose of this project is to enhance my development skills using java web (mvc-style) that ia had learned during my semester 4.
+Hi, the purpose of this project is to enhance my development skills using java web (mvc-style) that i had learned during my semester 4.
 ### About Project:
 The goal of the web app is to help me monitor things like my goals, financial, task etc. All in one app.
 ### Tech Used (Development):
