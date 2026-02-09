@@ -93,7 +93,6 @@
                     <c:when test="${empty bills}">
                         <div class="empty-state">
                             <p>No bills found</p>
-                            <a href="${pageContext.request.contextPath}/bills/add" class="btn btn-primary">Add Your First Bill</a>
                         </div>
                     </c:when>
                     <c:otherwise>

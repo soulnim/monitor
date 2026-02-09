@@ -123,8 +123,6 @@
                     <c:when test="${empty transactions}">
                         <div class="empty-state">
                             <p>No transactions found for this period</p>
-                            <a href="${pageContext.request.contextPath}/finance/add-transaction" class="btn btn-primary">
-                                Add Your First Transaction
                             </a>
                         </div>
                     </c:when>

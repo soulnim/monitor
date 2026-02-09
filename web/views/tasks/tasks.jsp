@@ -90,7 +90,6 @@
                     <c:when test="${empty tasks}">
                         <div class="empty-state">
                             <p>No tasks found</p>
-                            <a href="${pageContext.request.contextPath}/tasks/add" class="btn btn-primary">Add Your First Task</a>
                         </div>
                     </c:when>
                     <c:otherwise>
