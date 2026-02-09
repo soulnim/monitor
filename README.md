@@ -13,4 +13,4 @@ The goal of the web app is to help me monitor things like my goals, financial, t
 ### Tools Used (Development):
 1. Netbeans IDE 8.2
 ### Development Style:
-I will try to follow Agile methodology, maybe without the teamwork part (unless you want to join)
+I want to try fully AI coded, including the documentation. I will supervise it.
