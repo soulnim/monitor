@@ -2,9 +2,10 @@ package com.monitor.controller;
 
 import com.monitor.dao.*;
 import com.monitor.model.User;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Comprehensive Dashboard Controller loading data from all modules
+ * Updated to provide real chart data
  */
 @WebServlet(name = "DashboardController", urlPatterns = {"/dashboard"})
 public class DashboardController extends HttpServlet {
@@ -24,6 +26,7 @@ public class DashboardController extends HttpServlet {
     private GoalDAO goalDAO;
     private EventDAO eventDAO;
     private NoteDAO noteDAO;
+    private Gson gson;
     
     @Override
     public void init() throws ServletException {
@@ -33,6 +36,7 @@ public class DashboardController extends HttpServlet {
         goalDAO = new GoalDAOImpl();
         eventDAO = new EventDAOImpl();
         noteDAO = new NoteDAOImpl();
+        gson = new Gson();
     }
     
     @Override
@@ -56,7 +60,7 @@ public class DashboardController extends HttpServlet {
         int currentYear = cal.get(Calendar.YEAR);
         
         try {
-            // Financial Data
+            // Financial Data for Quick Stats
             BigDecimal monthlyIncome = transactionDAO.getTotalIncome(userId, currentMonth, currentYear);
             BigDecimal monthlyExpenses = transactionDAO.getTotalExpenses(userId, currentMonth, currentYear);
             BigDecimal netSavings = monthlyIncome.subtract(monthlyExpenses);
@@ -64,6 +68,59 @@ public class DashboardController extends HttpServlet {
             request.setAttribute("monthlyIncome", monthlyIncome);
             request.setAttribute("monthlyExpenses", monthlyExpenses);
             request.setAttribute("netSavings", netSavings);
+            
+            // ======= CHART DATA =======
+            
+            // 1. Expense Breakdown Chart Data
+            Map<String, BigDecimal> expensesByCategory = transactionDAO.getExpensesByCategory(
+                userId, currentMonth, currentYear
+            );
+            
+            // Convert to JSON for JavaScript
+            List<String> expenseLabels = new ArrayList<>();
+            List<Double> expenseAmounts = new ArrayList<>();
+            
+            if (expensesByCategory.isEmpty()) {
+                // Provide default data when no expenses exist
+                expenseLabels.add("No Expenses");
+                expenseAmounts.add(0.0);
+            } else {
+                for (Map.Entry<String, BigDecimal> entry : expensesByCategory.entrySet()) {
+                    expenseLabels.add(entry.getKey());
+                    expenseAmounts.add(entry.getValue().doubleValue());
+                }
+            }
+            
+            request.setAttribute("expenseLabelsJson", gson.toJson(expenseLabels));
+            request.setAttribute("expenseAmountsJson", gson.toJson(expenseAmounts));
+            
+            // 2. Income vs Expenses Trend Chart Data (Last 6 months)
+            Map<String, List<?>> trendData = transactionDAO.getMonthlyTrend(userId, 6);
+            
+            @SuppressWarnings("unchecked")
+            List<String> monthLabels = (List<String>) trendData.get("months");
+            @SuppressWarnings("unchecked")
+            List<BigDecimal> incomeList = (List<BigDecimal>) trendData.get("income");
+            @SuppressWarnings("unchecked")
+            List<BigDecimal> expensesList = (List<BigDecimal>) trendData.get("expenses");
+            
+            // Convert BigDecimal to Double for JSON
+            List<Double> incomeAmounts = new ArrayList<>();
+            List<Double> trendExpenseAmounts = new ArrayList<>();
+            
+            for (BigDecimal income : incomeList) {
+                incomeAmounts.add(income.doubleValue());
+            }
+            
+            for (BigDecimal expense : expensesList) {
+                trendExpenseAmounts.add(expense.doubleValue());
+            }
+            
+            request.setAttribute("trendMonthsJson", gson.toJson(monthLabels));
+            request.setAttribute("trendIncomeJson", gson.toJson(incomeAmounts));
+            request.setAttribute("trendExpensesJson", gson.toJson(trendExpenseAmounts));
+            
+            // ======= END CHART DATA =======
             
             // Task Data
             request.setAttribute("todayTasks", taskDAO.getTodayTasks(userId));
@@ -85,12 +142,20 @@ public class DashboardController extends HttpServlet {
         } catch (Exception e) {
             System.err.println("Error loading dashboard data: " + e.getMessage());
             e.printStackTrace();
+            
             // Set default values
             request.setAttribute("monthlyIncome", BigDecimal.ZERO);
             request.setAttribute("monthlyExpenses", BigDecimal.ZERO);
             request.setAttribute("netSavings", BigDecimal.ZERO);
             request.setAttribute("pendingTasks", 0);
             request.setAttribute("upcomingBills", 0);
+            
+            // Set empty chart data
+            request.setAttribute("expenseLabelsJson", "[]");
+            request.setAttribute("expenseAmountsJson", "[]");
+            request.setAttribute("trendMonthsJson", "[]");
+            request.setAttribute("trendIncomeJson", "[]");
+            request.setAttribute("trendExpensesJson", "[]");
         }
         
         // Set welcome message
