@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Monitor</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard_v2.css">
+    <!-- Chart.js for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- SortableJS for drag and drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
     <jsp:include page="includes/header.jsp" />
@@ -17,153 +23,242 @@
         
         <main class="main-content">
             <div class="page-header">
-                <h1>Dashboard</h1>
-                <p class="page-subtitle">Welcome back! Here's your overview</p>
-            </div>
-            
-            <!-- Quick Stats -->
-            <div class="summary-cards">
-                <div class="summary-card income">
-                    <div class="card-icon">💵</div>
-                    <div class="card-info">
-                        <h3>This Month Income</h3>
-                        <p class="amount">$<fmt:formatNumber value="${monthlyIncome}" pattern="#,##0.00" /></p>
-                    </div>
+                <div class="header-left">
+                    <h1>Dashboard</h1>
+                    <p class="page-subtitle">Welcome back! Here's your personalized overview</p>
                 </div>
-                
-                <div class="summary-card expense">
-                    <div class="card-icon">💸</div>
-                    <div class="card-info">
-                        <h3>This Month Expenses</h3>
-                        <p class="amount">$<fmt:formatNumber value="${monthlyExpenses}" pattern="#,##0.00" /></p>
-                    </div>
-                </div>
-                
-                <div class="summary-card">
-                    <div class="card-icon">✓</div>
-                    <div class="card-info">
-                        <h3>Pending Tasks</h3>
-                        <p class="amount">${pendingTasks}</p>
-                    </div>
-                </div>
-                
-                <div class="summary-card ${upcomingBills > 0 ? 'expense' : ''}">
-                    <div class="card-icon">🧾</div>
-                    <div class="card-info">
-                        <h3>Upcoming Bills</h3>
-                        <p class="amount">${upcomingBills}</p>
-                    </div>
+                <div class="header-actions">
+                    <button class="btn-primary" id="customizeToggleBtn">
+                        <span class="icon">⚙️</span> <span id="customizeBtnText">Customize</span>
+                    </button>
                 </div>
             </div>
             
-            <!-- Main Dashboard Grid -->
-            <div class="dashboard-grid">
-                
-                <!-- Financial Summary -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3>💰 Financial Summary</h3>
-                        <span class="card-period">This Month</span>
+            <!-- Quick Stats Bar -->
+            <div class="quick-stats">
+                <div class="stat-item stat-income">
+                    <div class="stat-icon">💵</div>
+                    <div class="stat-content">
+                        <span class="stat-label">This Month Income</span>
+                        <span class="stat-value">$<fmt:formatNumber value="${monthlyIncome}" pattern="#,##0.00" /></span>
                     </div>
-                    <div class="card-body">
+                </div>
+                
+                <div class="stat-item stat-expense">
+                    <div class="stat-icon">💸</div>
+                    <div class="stat-content">
+                        <span class="stat-label">This Month Expenses</span>
+                        <span class="stat-value">$<fmt:formatNumber value="${monthlyExpenses}" pattern="#,##0.00" /></span>
+                    </div>
+                </div>
+                
+                <div class="stat-item stat-savings">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Net Savings</span>
+                        <span class="stat-value">$<fmt:formatNumber value="${netSavings}" pattern="#,##0.00" /></span>
+                    </div>
+                </div>
+                
+                <div class="stat-item stat-tasks">
+                    <div class="stat-icon">✓</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Pending Tasks</span>
+                        <span class="stat-value">${pendingTasks}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Widget Grid (Customizable & Draggable) -->
+            <div class="widgets-grid" id="widgetsGrid">
+                
+                <!-- Financial Summary Widget -->
+                <div class="widget" data-widget-id="financial-summary" data-widget-type="data">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">💰</span>
+                            <h3>Financial Summary</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <span class="widget-period">This Month</span>
+                            <button class="widget-menu-btn" title="Widget options">⋮</button>
+                        </div>
+                    </div>
+                    <div class="widget-body">
                         <div class="stat-row">
                             <span class="stat-label">Income:</span>
-                            <span class="stat-value income">$<fmt:formatNumber value="${monthlyIncome}" pattern="#,##0.00" /></span>
+                            <span class="stat-value stat-positive">$<fmt:formatNumber value="${monthlyIncome}" pattern="#,##0.00" /></span>
                         </div>
                         <div class="stat-row">
                             <span class="stat-label">Expenses:</span>
-                            <span class="stat-value expense">$<fmt:formatNumber value="${monthlyExpenses}" pattern="#,##0.00" /></span>
+                            <span class="stat-value stat-negative">$<fmt:formatNumber value="${monthlyExpenses}" pattern="#,##0.00" /></span>
                         </div>
-                        <div class="stat-row total">
+                        <div class="stat-divider"></div>
+                        <div class="stat-row stat-highlight">
                             <span class="stat-label">Net Savings:</span>
                             <span class="stat-value">$<fmt:formatNumber value="${netSavings}" pattern="#,##0.00" /></span>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="${pageContext.request.contextPath}/finance/transactions">View Details →</a>
+                    <div class="widget-footer">
+                        <a href="${pageContext.request.contextPath}/finance/transactions" class="widget-link">
+                            View Details <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
                 
-                <!-- Today's Tasks -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3>✓ Today's Tasks</h3>
+                <!-- Today's Tasks Widget -->
+                <div class="widget" data-widget-id="today-tasks" data-widget-type="list">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">✓</span>
+                            <h3>Today's Tasks</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <span class="widget-badge">${fn:length(todayTasks)}</span>
+                            <button class="widget-menu-btn" title="Widget options">⋮</button>
+                        </div>
                     </div>
-                    <div class="card-body">
+                    <div class="widget-body">
                         <c:choose>
                             <c:when test="${empty todayTasks}">
-                                <p class="empty-state">No tasks for today</p>
+                                <div class="empty-state">
+                                    <span class="empty-icon">✓</span>
+                                    <p>No tasks for today</p>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                <ul class="task-list">
+                                <ul class="item-list">
                                     <c:forEach items="${todayTasks}" var="task" varStatus="status">
-                                        <c:if test="${status.index < 5}">
-                                            <li>
-                                                <span class="badge badge-${task.priority == 'HIGH' ? 'danger' : 'secondary'}">${task.priority}</span>
-                                                <c:out value="${task.title}" />
+                                        <c:if test="${status.index < 3}">
+                                            <li class="item">
+                                                <div class="item-content">
+                                                    <span class="priority-badge priority-${fn:toLowerCase(task.priority)}">${task.priority}</span>
+                                                    <span class="item-title"><c:out value="${task.title}" /></span>
+                                                </div>
+                                                <span class="item-time">
+                                                    <fmt:formatDate value="${task.dueDate}" pattern="HH:mm" />
+                                                </span>
                                             </li>
                                         </c:if>
                                     </c:forEach>
                                 </ul>
+                                <c:if test="${fn:length(todayTasks) > 3}">
+                                    <p class="more-items">+${fn:length(todayTasks) - 3} more tasks</p>
+                                </c:if>
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <div class="card-footer">
-                        <a href="${pageContext.request.contextPath}/tasks">View All Tasks →</a>
+                    <div class="widget-footer">
+                        <a href="${pageContext.request.contextPath}/tasks" class="widget-link">
+                            View All Tasks <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
                 
-                <!-- Upcoming Bills -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3>🧾 Upcoming Bills</h3>
-                        <span class="card-period">Next 7 Days</span>
+                <!-- Upcoming Bills Widget -->
+                <div class="widget" data-widget-id="upcoming-bills" data-widget-type="list">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">🧾</span>
+                            <h3>Upcoming Bills</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <span class="widget-period">Next 7 Days</span>
+                            <button class="widget-menu-btn" title="Widget options">⋮</button>
+                        </div>
                     </div>
-                    <div class="card-body">
+                    <div class="widget-body">
                         <c:choose>
                             <c:when test="${empty upcomingBillsList}">
-                                <p class="empty-state">No upcoming bills</p>
+                                <div class="empty-state">
+                                    <span class="empty-icon">🧾</span>
+                                    <p>No upcoming bills</p>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                <ul class="bill-list">
+                                <ul class="item-list">
                                     <c:forEach items="${upcomingBillsList}" var="bill" varStatus="status">
-                                        <c:if test="${status.index < 5}">
-                                            <li>
-                                                <span><c:out value="${bill.billName}" /></span>
-                                                <span class="amount-small">$<fmt:formatNumber value="${bill.amount}" pattern="#,##0.00" /></span>
+                                        <c:if test="${status.index < 3}">
+                                            <li class="item">
+                                                <div class="item-content">
+                                                    <span class="item-title"><c:out value="${bill.billName}" /></span>
+                                                    <span class="item-subtitle">
+                                                        Due <fmt:formatDate value="${bill.dueDate}" pattern="MMM dd" />
+                                                    </span>
+                                                </div>
+                                                <span class="item-amount amount-negative">
+                                                    $<fmt:formatNumber value="${bill.amount}" pattern="#,##0.00" />
+                                                </span>
                                             </li>
                                         </c:if>
                                     </c:forEach>
                                 </ul>
+                                <c:if test="${fn:length(upcomingBillsList) > 3}">
+                                    <p class="more-items">+${fn:length(upcomingBillsList) - 3} more bills</p>
+                                </c:if>
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <div class="card-footer">
-                        <a href="${pageContext.request.contextPath}/bills">Manage Bills →</a>
+                    <div class="widget-footer">
+                        <a href="${pageContext.request.contextPath}/bills" class="widget-link">
+                            Manage Bills <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
                 
-                <!-- Active Goals -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3>🎯 Active Goals</h3>
+                <!-- Expense Chart Widget -->
+                <div class="widget widget-chart" data-widget-id="expense-chart" data-widget-type="chart">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">📊</span>
+                            <h3>Expense Breakdown</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <span class="widget-period">This Month</span>
+                            <button class="widget-menu-btn" title="Widget options">⋮</button>
+                        </div>
                     </div>
-                    <div class="card-body">
+                    <div class="widget-body">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Active Goals Widget -->
+                <div class="widget" data-widget-id="active-goals" data-widget-type="progress">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">🎯</span>
+                            <h3>Active Goals</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <button class="widget-menu-btn" title="Widget options">⋮</button>
+                        </div>
+                    </div>
+                    <div class="widget-body">
                         <c:choose>
                             <c:when test="${empty activeGoals}">
-                                <p class="empty-state">No active goals</p>
+                                <div class="empty-state">
+                                    <span class="empty-icon">🎯</span>
+                                    <p>No active goals</p>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                <ul class="goal-list">
+                                <ul class="progress-list">
                                     <c:forEach items="${activeGoals}" var="goal" varStatus="status">
                                         <c:if test="${status.index < 3}">
-                                            <li>
-                                                <div class="goal-item">
-                                                    <span><c:out value="${goal.title}" /></span>
-                                                    <div class="progress-bar">
-                                                        <div class="progress-fill" style="width: ${goal.completionPercentage}%"></div>
-                                                    </div>
-                                                    <span class="progress-text">${goal.completionPercentage}%</span>
+                                            <li class="progress-item">
+                                                <div class="progress-header">
+                                                    <span class="progress-title"><c:out value="${goal.title}" /></span>
+                                                    <span class="progress-percent">${goal.completionPercentage}%</span>
+                                                </div>
+                                                <div class="progress-bar-container">
+                                                    <div class="progress-bar-fill" style="width: ${goal.completionPercentage}%"></div>
+                                                </div>
+                                                <div class="progress-meta">
+                                                    <span class="progress-category">${goal.category}</span>
+                                                    <span class="progress-deadline">
+                                                        <fmt:formatDate value="${goal.targetDate}" pattern="MMM dd, yyyy" />
+                                                    </span>
                                                 </div>
                                             </li>
                                         </c:if>
@@ -172,29 +267,66 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <div class="card-footer">
-                        <a href="${pageContext.request.contextPath}/goals">View All Goals →</a>
+                    <div class="widget-footer">
+                        <a href="${pageContext.request.contextPath}/goals" class="widget-link">
+                            View All Goals <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
                 
-                <!-- Upcoming Events -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3>📅 Upcoming Events</h3>
-                        <span class="card-period">Next 3 Days</span>
+                <!-- Income vs Expenses Trend Chart -->
+                <div class="widget widget-chart widget-wide" data-widget-id="trend-chart" data-widget-type="chart">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">📈</span>
+                            <h3>Income vs Expenses Trend</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <span class="widget-period">Last 6 Months</span>
+                            <button class="widget-menu-btn" title="Widget options">⋮</button>
+                        </div>
                     </div>
-                    <div class="card-body">
+                    <div class="widget-body">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Events Widget -->
+                <div class="widget" data-widget-id="upcoming-events" data-widget-type="list">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">📅</span>
+                            <h3>Upcoming Events</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <span class="widget-period">Next 3 Days</span>
+                            <button class="widget-menu-btn" title="Widget options">⋮</button>
+                        </div>
+                    </div>
+                    <div class="widget-body">
                         <c:choose>
                             <c:when test="${empty upcomingEvents}">
-                                <p class="empty-state">No upcoming events</p>
+                                <div class="empty-state">
+                                    <span class="empty-icon">📅</span>
+                                    <p>No upcoming events</p>
+                                </div>
                             </c:when>
                             <c:otherwise>
-                                <ul class="event-list">
+                                <ul class="item-list">
                                     <c:forEach items="${upcomingEvents}" var="event" varStatus="status">
-                                        <c:if test="${status.index < 5}">
-                                            <li>
-                                                <fmt:formatDate value="${event.eventDate}" pattern="MMM dd" />:
-                                                <c:out value="${event.title}" />
+                                        <c:if test="${status.index < 3}">
+                                            <li class="item">
+                                                <div class="item-date">
+                                                    <span class="date-day"><fmt:formatDate value="${event.eventDate}" pattern="dd" /></span>
+                                                    <span class="date-month"><fmt:formatDate value="${event.eventDate}" pattern="MMM" /></span>
+                                                </div>
+                                                <div class="item-content">
+                                                    <span class="item-title"><c:out value="${event.title}" /></span>
+                                                    <span class="item-subtitle">
+                                                        <fmt:formatDate value="${event.startTime}" pattern="HH:mm" /> - 
+                                                        <fmt:formatDate value="${event.endTime}" pattern="HH:mm" />
+                                                    </span>
+                                                </div>
                                             </li>
                                         </c:if>
                                     </c:forEach>
@@ -202,28 +334,42 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <div class="card-footer">
-                        <a href="${pageContext.request.contextPath}/schedule">View Calendar →</a>
+                    <div class="widget-footer">
+                        <a href="${pageContext.request.contextPath}/schedule" class="widget-link">
+                            View Calendar <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
                 
-                <!-- Recent Notes -->
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h3>📝 Recent Notes</h3>
+                <!-- Recent Notes Widget -->
+                <div class="widget" data-widget-id="recent-notes" data-widget-type="list">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">📝</span>
+                            <h3>Recent Notes</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <button class="widget-menu-btn" title="Widget options">⋮</button>
+                        </div>
                     </div>
-                    <div class="card-body">
+                    <div class="widget-body">
                         <c:choose>
                             <c:when test="${empty recentNotes}">
-                                <p class="empty-state">No notes yet</p>
+                                <div class="empty-state">
+                                    <span class="empty-icon">📝</span>
+                                    <p>No notes yet</p>
+                                </div>
                             </c:when>
                             <c:otherwise>
                                 <ul class="note-list">
                                     <c:forEach items="${recentNotes}" var="note" varStatus="status">
                                         <c:if test="${status.index < 3}">
-                                            <li>
-                                                <strong><c:out value="${note.title}" /></strong>
+                                            <li class="note-item">
+                                                <h4 class="note-title"><c:out value="${note.title}" /></h4>
                                                 <p class="note-preview"><c:out value="${note.preview}" /></p>
+                                                <span class="note-date">
+                                                    <fmt:formatDate value="${note.updatedAt}" pattern="MMM dd, HH:mm" />
+                                                </span>
                                             </li>
                                         </c:if>
                                     </c:forEach>
@@ -231,13 +377,90 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <div class="card-footer">
-                        <a href="${pageContext.request.contextPath}/notes">View All Notes →</a>
+                    <div class="widget-footer">
+                        <a href="${pageContext.request.contextPath}/notes" class="widget-link">
+                            View All Notes <span class="arrow">→</span>
+                        </a>
                     </div>
                 </div>
                 
             </div>
         </main>
     </div>
+    
+    <!-- Widget Selection Panel (shown in customization mode) -->
+    <div class="customization-panel" id="customizationPanel">
+        <div class="panel-header">
+            <h3>Select widgets to display</h3>
+            <p>Check the widgets you want to see on your dashboard. Drag widgets to rearrange them.</p>
+        </div>
+        <div class="widget-toggles">
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="financial-summary" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">💰</span>
+                    <span>Financial Summary</span>
+                </span>
+            </label>
+            
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="today-tasks" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">✓</span>
+                    <span>Today's Tasks</span>
+                </span>
+            </label>
+            
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="upcoming-bills" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">🧾</span>
+                    <span>Upcoming Bills</span>
+                </span>
+            </label>
+            
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="expense-chart" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">📊</span>
+                    <span>Expense Breakdown</span>
+                </span>
+            </label>
+            
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="active-goals" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">🎯</span>
+                    <span>Active Goals</span>
+                </span>
+            </label>
+            
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="trend-chart" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">📈</span>
+                    <span>Income vs Expenses Trend</span>
+                </span>
+            </label>
+            
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="upcoming-events" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">📅</span>
+                    <span>Upcoming Events</span>
+                </span>
+            </label>
+            
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="recent-notes" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">📝</span>
+                    <span>Recent Notes</span>
+                </span>
+            </label>
+        </div>
+    </div>
+    
+    <script src="${pageContext.request.contextPath}/js/dashboard_v2.js"></script>
 </body>
 </html>
