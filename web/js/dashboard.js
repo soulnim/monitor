@@ -1,6 +1,19 @@
-// Dashboard V2 - Interactive Features with Edit Mode Toggle
+// Dashboard V2 - Interactive Features with Edit Mode Toggle and Real Data
 let isEditMode = false;
 let sortableInstance = null;
+
+// Chart data from server (will be injected by JSP)
+let chartData = {
+    expense: {
+        labels: [],
+        amounts: []
+    },
+    trend: {
+        months: [],
+        income: [],
+        expenses: []
+    }
+};
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Dashboard V2 JavaScript loaded');
@@ -33,6 +46,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('Event listeners attached');
 });
+
+// Set chart data (called from JSP)
+function setChartData(expenseLabels, expenseAmounts, trendMonths, trendIncome, trendExpenses) {
+    chartData.expense.labels = expenseLabels;
+    chartData.expense.amounts = expenseAmounts;
+    chartData.trend.months = trendMonths;
+    chartData.trend.income = trendIncome;
+    chartData.trend.expenses = trendExpenses;
+    
+    console.log('Chart data set:', chartData);
+}
 
 // Toggle between view mode and edit mode
 function toggleEditMode() {
@@ -300,23 +324,35 @@ function initializeCharts() {
 // Expense Breakdown Pie Chart
 function initializeExpenseChart() {
     const canvas = document.getElementById('expenseChart');
-    if (!canvas) return;
+    if (!canvas) {
+        console.log('Expense chart canvas not found, skipping initialization');
+        return;
+    }
     
     const ctx = canvas.getContext('2d');
     
-    // Sample data - replace with actual data from server
+    // Use real data if available, otherwise use sample data
+    let labels, amounts;
+    
+    if (chartData.expense.labels.length > 0) {
+        labels = chartData.expense.labels;
+        amounts = chartData.expense.amounts;
+        console.log('Using real expense data:', labels, amounts);
+    } else {
+        // Fallback to sample data if no real data
+        labels = ['Food & Dining', 'Transport', 'Shopping', 'Bills', 'Entertainment', 'Others'];
+        amounts = [850, 420, 680, 920, 350, 280];
+        console.log('No real data available, using sample data');
+    }
+    
+    // Generate colors for categories
+    const colors = generateColors(labels.length);
+    
     const data = {
-        labels: ['Food & Dining', 'Transport', 'Shopping', 'Bills', 'Entertainment', 'Others'],
+        labels: labels,
         datasets: [{
-            data: [850, 420, 680, 920, 350, 280],
-            backgroundColor: [
-                '#ef4444',
-                '#f59e0b',
-                '#10b981',
-                '#3b82f6',
-                '#8b5cf6',
-                '#ec4899'
-            ],
+            data: amounts,
+            backgroundColor: colors,
             borderWidth: 0
         }]
     };
@@ -355,22 +391,42 @@ function initializeExpenseChart() {
             cutout: '65%'
         }
     });
+    
+    console.log('Expense chart initialized');
 }
 
 // Income vs Expenses Trend Line Chart
 function initializeTrendChart() {
     const canvas = document.getElementById('trendChart');
-    if (!canvas) return;
+    if (!canvas) {
+        console.log('Trend chart canvas not found, skipping initialization');
+        return;
+    }
     
     const ctx = canvas.getContext('2d');
     
-    // Sample data - replace with actual data from server
+    // Use real data if available, otherwise use sample data
+    let months, income, expenses;
+    
+    if (chartData.trend.months.length > 0) {
+        months = chartData.trend.months;
+        income = chartData.trend.income;
+        expenses = chartData.trend.expenses;
+        console.log('Using real trend data:', months, income, expenses);
+    } else {
+        // Fallback to sample data if no real data
+        months = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'];
+        income = [3200, 3500, 3300, 3800, 3600, 4000];
+        expenses = [2800, 3200, 2900, 3100, 3400, 3300];
+        console.log('No real data available, using sample data');
+    }
+    
     const data = {
-        labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],
+        labels: months,
         datasets: [
             {
                 label: 'Income',
-                data: [3200, 3500, 3300, 3800, 3600, 4000],
+                data: income,
                 borderColor: '#10b981',
                 backgroundColor: 'rgba(16, 185, 129, 0.1)',
                 borderWidth: 3,
@@ -384,7 +440,7 @@ function initializeTrendChart() {
             },
             {
                 label: 'Expenses',
-                data: [2800, 3200, 2900, 3100, 3400, 3300],
+                data: expenses,
                 borderColor: '#ef4444',
                 backgroundColor: 'rgba(239, 68, 68, 0.1)',
                 borderWidth: 3,
@@ -471,6 +527,23 @@ function initializeTrendChart() {
             }
         }
     });
+    
+    console.log('Trend chart initialized');
+}
+
+// Generate colors for chart
+function generateColors(count) {
+    const baseColors = [
+        '#ef4444', '#f59e0b', '#10b981', '#3b82f6', 
+        '#8b5cf6', '#ec4899', '#14b8a6', '#f97316',
+        '#06b6d4', '#84cc16', '#a855f7', '#f43f5e'
+    ];
+    
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+        colors.push(baseColors[i % baseColors.length]);
+    }
+    return colors;
 }
 
 // Utility function to format currency

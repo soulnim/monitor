@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Monitor</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard_v2.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
     <!-- Chart.js for visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- SortableJS for drag and drop -->
@@ -460,7 +460,30 @@
             </label>
         </div>
     </div>
-    
-    <script src="${pageContext.request.contextPath}/js/dashboard_v2.js"></script>
+    <!-- Inject Chart Data from Backend -->
+    <script>
+        // This script injects real data from the server into the JavaScript
+        // It runs before dashboard_v2.js so the data is available when charts initialize
+
+        // Expense Chart Data
+        const expenseLabels = ${expenseLabelsJson};
+        const expenseAmounts = ${expenseAmountsJson};
+
+        // Trend Chart Data  
+        const trendMonths = ${trendMonthsJson};
+        const trendIncome = ${trendIncomeJson};
+        const trendExpenses = ${trendExpensesJson};
+
+        // Wait for DOMContentLoaded to ensure dashboard_v2.js is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set the chart data (this function is defined in dashboard_v2.js)
+            if (typeof setChartData === 'function') {
+                setChartData(expenseLabels, expenseAmounts, trendMonths, trendIncome, trendExpenses);
+            } else {
+                console.error('setChartData function not found. Make sure dashboard_v2.js is loaded.');
+            }
+        });
+    </script>
+    <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
 </body>
 </html>

@@ -3,8 +3,16 @@ package com.monitor.dao;
 import com.monitor.model.Transaction;
 import com.monitor.util.DBConnection;
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -265,7 +273,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         String sql = "SELECT t.*, c.category_name FROM transactions t " +
                     "LEFT JOIN categories c ON t.category_id = c.category_id " +
                     "WHERE t.user_id = ? ORDER BY t.transaction_date DESC " +
-                    "FETCH FIRST ? ROWS ONLY";
+                    "LIMIT ?";
         
         List<Transaction> transactions = new ArrayList<>();
         
@@ -286,6 +294,44 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
         
         return transactions;
+    }
+    
+    @Override
+    public Map<String, List<?>> getMonthlyTrend(int userId, int monthsCount) throws SQLException {
+        List<String> monthLabels = new ArrayList<>();
+        List<BigDecimal> incomeData = new ArrayList<>();
+        List<BigDecimal> expenseData = new ArrayList<>();
+        
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MMM");
+        
+        // Get data for each of the last N months
+        for (int i = monthsCount - 1; i >= 0; i--) {
+            cal.add(Calendar.MONTH, -i);
+            int month = cal.get(Calendar.MONTH) + 1;
+            int year = cal.get(Calendar.YEAR);
+            
+            // Format month label (e.g., "Jan", "Feb")
+            monthLabels.add(monthFormat.format(cal.getTime()));
+            
+            // Get income and expenses for this month
+            BigDecimal income = getTotalIncome(userId, month, year);
+            BigDecimal expenses = getTotalExpenses(userId, month, year);
+            
+            incomeData.add(income);
+            expenseData.add(expenses);
+            
+            // Reset calendar for next iteration
+            cal = Calendar.getInstance();
+        }
+        
+        // Create result map
+        Map<String, List<?>> result = new HashMap<>();
+        result.put("months", monthLabels);
+        result.put("income", incomeData);
+        result.put("expenses", expenseData);
+        
+        return result;
     }
     
     /**

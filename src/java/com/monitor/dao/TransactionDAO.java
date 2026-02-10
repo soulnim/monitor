@@ -119,4 +119,13 @@ public interface TransactionDAO {
      * @throws SQLException if database error occurs
      */
     List<Transaction> getRecentTransactions(int userId, int limit) throws SQLException;
+    
+    /**
+     * Get monthly income and expense totals for last N months
+     * @param userId User ID
+     * @param monthsCount Number of months to retrieve (e.g., 6 for last 6 months)
+     * @return Map with keys "months" (List<String>), "income" (List<BigDecimal>), "expenses" (List<BigDecimal>)
+     * @throws SQLException if database error occurs
+     */
+    Map<String, List<?>> getMonthlyTrend(int userId, int monthsCount) throws SQLException;
 }
