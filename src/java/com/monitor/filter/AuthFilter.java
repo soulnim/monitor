@@ -24,6 +24,8 @@ import javax.servlet.http.HttpSession;
     "/schedule/*",
     "/bills/*",
     "/notes/*",
+    "/budgets/*",
+    "/settings",
     "/profile/*"
 })
 public class AuthFilter implements Filter {

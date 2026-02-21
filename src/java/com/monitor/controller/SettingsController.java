@@ -1,8 +1,9 @@
 package com.monitor.controller;
 
-import com.monitor.dao.UserDAO;
-import com.monitor.dao.UserDAOImpl;
+import com.monitor.dao.UserPreferenceDAO;
+import com.monitor.dao.UserPreferenceDAOImpl;
 import com.monitor.model.User;
+import com.monitor.model.UserPreference;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,53 +17,59 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "SettingsController", urlPatterns = {"/settings"})
 public class SettingsController extends HttpServlet {
-    
-    private UserDAO userDAO;
-    
+
+    private UserPreferenceDAO userPreferenceDAO;
+
     @Override
     public void init() throws ServletException {
-        userDAO = new UserDAOImpl();
+        userPreferenceDAO = new UserPreferenceDAOImpl();
+        try {
+            userPreferenceDAO.ensureTableExists();
+        } catch (Exception e) {
+            throw new ServletException("Failed to initialize settings storage", e);
+        }
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        
+
         showSettings(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        
+
         handleUpdateSettings(request, response);
     }
-    
+
     private void showSettings(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         User user = (User) request.getSession().getAttribute("user");
-        
+
         try {
-            // Load user preferences (could be from a preferences table)
+            UserPreference preference = userPreferenceDAO.getByUserId(user.getUserId());
+            request.getSession().setAttribute("theme", preference.getTheme());
             request.setAttribute("user", user);
-            
-            // Get session timeout from web.xml (default 30 minutes)
+            request.setAttribute("preference", preference);
+
             int sessionTimeout = request.getSession().getMaxInactiveInterval() / 60;
             request.setAttribute("sessionTimeout", sessionTimeout);
-            
+
             request.getRequestDispatcher("/views/settings/settings.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,49 +77,40 @@ public class SettingsController extends HttpServlet {
             request.getRequestDispatcher("/views/settings/settings.jsp").forward(request, response);
         }
     }
-    
+
     private void handleUpdateSettings(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        
         String action = request.getParameter("action");
-        
+
         try {
+            UserPreference preference = userPreferenceDAO.getByUserId(user.getUserId());
+
             if ("notifications".equals(action)) {
-                // Handle notification settings
-                String emailNotifications = request.getParameter("emailNotifications");
-                String billReminders = request.getParameter("billReminders");
-                String taskReminders = request.getParameter("taskReminders");
-                
-                // In a real app, save these to a user_preferences table
-                // For now, just show success
-                
+                preference.setEmailNotifications("true".equals(request.getParameter("emailNotifications")));
+                preference.setBillReminders("true".equals(request.getParameter("billReminders")));
+                preference.setTaskReminders("true".equals(request.getParameter("taskReminders")));
+                userPreferenceDAO.saveOrUpdate(preference);
                 response.sendRedirect(request.getContextPath() + "/settings?updated=notifications");
-                
             } else if ("preferences".equals(action)) {
-                // Handle general preferences
-                String theme = request.getParameter("theme");
-                String language = request.getParameter("language");
-                String dateFormat = request.getParameter("dateFormat");
-                String currency = request.getParameter("currency");
-                
-                // Save preferences
+                preference.setTheme(request.getParameter("theme"));
+                preference.setLanguage(request.getParameter("language"));
+                preference.setDateFormat(request.getParameter("dateFormat"));
+                preference.setCurrency(request.getParameter("currency"));
+                userPreferenceDAO.saveOrUpdate(preference);
+                session.setAttribute("theme", preference.getTheme());
                 response.sendRedirect(request.getContextPath() + "/settings?updated=preferences");
-                
             } else if ("privacy".equals(action)) {
-                // Handle privacy settings
-                String profileVisibility = request.getParameter("profileVisibility");
-                String dataSharing = request.getParameter("dataSharing");
-                
-                // Save privacy settings
+                preference.setProfileVisibility(request.getParameter("profileVisibility"));
+                preference.setDataSharing("true".equals(request.getParameter("dataSharing")));
+                userPreferenceDAO.saveOrUpdate(preference);
                 response.sendRedirect(request.getContextPath() + "/settings?updated=privacy");
-                
             } else {
                 response.sendRedirect(request.getContextPath() + "/settings");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Error updating settings: " + e.getMessage());

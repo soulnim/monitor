@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label for="title">Goal Title *</label>
                         <input type="text" name="title" id="title" required maxlength="200" 
-                               placeholder="e.g., Save $10,000 for vacation">
+                               placeholder="e.g., Complete 30 books this year">
                     </div>
                     
                     <div class="form-group">

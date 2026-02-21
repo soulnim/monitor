@@ -17,7 +17,7 @@
         
         <main class="main-content">
             <div class="page-header">
-                <h1>Goal Tracking</h1>
+                <h1>Personal Goal Tracking</h1>
                 <a href="${pageContext.request.contextPath}/goals/add" class="btn btn-primary">+ Add Goal</a>
             </div>
             
