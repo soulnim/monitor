@@ -26,6 +26,7 @@ public class DashboardController extends HttpServlet {
     private GoalDAO goalDAO;
     private EventDAO eventDAO;
     private NoteDAO noteDAO;
+    private BudgetDAO budgetDAO;
     private Gson gson;
     
     @Override
@@ -36,6 +37,7 @@ public class DashboardController extends HttpServlet {
         goalDAO = new GoalDAOImpl();
         eventDAO = new EventDAOImpl();
         noteDAO = new NoteDAOImpl();
+        budgetDAO = new BudgetDAOImpl();
         gson = new Gson();
     }
     
@@ -132,6 +134,9 @@ public class DashboardController extends HttpServlet {
             
             // Goal Data
             request.setAttribute("activeGoals", goalDAO.getGoalsByStatus(userId, "ACTIVE"));
+
+            // Budget Data
+            request.setAttribute("budgetOverview", budgetDAO.getBudgetsByMonth(userId, currentMonth, currentYear));
             
             // Event Data
             request.setAttribute("upcomingEvents", eventDAO.getUpcomingEvents(userId, 3));
@@ -149,6 +154,7 @@ public class DashboardController extends HttpServlet {
             request.setAttribute("netSavings", BigDecimal.ZERO);
             request.setAttribute("pendingTasks", 0);
             request.setAttribute("upcomingBills", 0);
+            request.setAttribute("budgetOverview", new ArrayList<>());
             
             // Set empty chart data
             request.setAttribute("expenseLabelsJson", "[]");
