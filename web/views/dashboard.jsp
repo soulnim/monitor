@@ -8,8 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Monitor</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=20260222-1">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css?v=20260222-1">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
     <!-- Chart.js for visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- SortableJS for drag and drop -->
