@@ -1473,58 +1473,140 @@ a:hover {
         min-width: 600px;
     }
 }
-/* ===== Theme System Upgrade ===== */
-:root {
-    --bg-primary: #1a1a2e,
-    --bg-secondary: #16213e,
-    --bg-tertiary: #0f3460,
-    --bg-card: #1f2937,
-    --bg-hover: #2d3748,
-    --text-primary: #ffffff,
-    --text-secondary: #cbd5e0,
-    --text-muted: #718096,
-    --accent-primary: #00ff87,
-    --accent-secondary: #00d9ff,
-    --danger: #ff6b6b,
-    --success: #00ff87,
-    --warning: #ffd700,
-    --info: #00d9ff;
-}
-
-:root[data-theme="light"] {
-    --bg-primary: #f6f8fb,
-    --bg-secondary: #ffffff,
-    --bg-tertiary: #e9eef5,
-    --bg-card: #ffffff,
-    --bg-hover: #eef3fa,
-    --text-primary: #1f2937,
-    --text-secondary: #4b5563,
-    --text-muted: #6b7280,
-    --accent-primary: #0ea5e9,
-    --accent-secondary: #14b8a6,
-    --danger: #ef4444,
-    --success: #10b981,
-    --warning: #f59e0b,
-    --info: #3b82f6;
-}
-
-body { background: var(--bg-primary); color: var(--text-primary); }
-a { color: var(--accent-secondary); }
-.main-header, .sidebar, .content-card, .form-card, .settings-card, .widget, .stat-item, .data-table, .form-container { background: var(--bg-secondary); color: var(--text-primary); }
-.main-content { background: var(--bg-primary); }
-.sidebar .nav-item, .user-greeting, .page-subtitle, .subtitle, .form-text, .settings-info p { color: var(--text-secondary); }
-.sidebar .nav-item.active { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: #08121f; }
-.user-avatar { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: #08121f; }
-.user-menu-dropdown { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); }
-.user-menu-dropdown .menu-item { color: var(--text-primary); }
-.user-menu-dropdown .menu-item:hover { background: var(--bg-hover); }
-.form-group input, .form-group textarea, .form-group select, select { background: var(--bg-card); border-color: transparent; color: var(--text-primary); }
-.form-group input:focus, .form-group textarea:focus, .form-group select:focus, select:focus { border-color: var(--accent-primary); }
-.btn-primary { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: #08121f; }
-.btn-secondary { background: var(--bg-tertiary); color: var(--text-secondary); }
-.alert-success { background: rgba(16,185,129,0.15); color: var(--success); border-color: rgba(16,185,129,0.4); }
-.alert-error { background: rgba(239,68,68,0.12); color: var(--danger); border-color: rgba(239,68,68,0.4); }
-.table-responsive .data-table th { background: var(--bg-tertiary); color: var(--text-primary); }
-.table-responsive .data-table td { border-color: rgba(255,255,255,0.06); }
+/* ===== Theme System (Parser-safe, class-based) ===== */
 .btn-theme-toggle { width: auto; padding: 8px 12px; }
-.progress-danger { background: linear-gradient(90deg, var(--danger), #ff8a8a) !important; }
+.progress-danger { background: linear-gradient(90deg, #ef4444, #ff8a8a) !important; }
+
+/* Fallback theme layer for environments with weak CSS variable support */
+body.theme-dark {
+    background: #1a1a2e !important;
+    color: #ffffff !important;
+}
+
+body.theme-dark .main-content {
+    background: #1a1a2e !important;
+}
+
+body.theme-dark .main-header,
+body.theme-dark .sidebar,
+body.theme-dark .content-card,
+body.theme-dark .form-card,
+body.theme-dark .form-card-wide,
+body.theme-dark .settings-card,
+body.theme-dark .settings-header,
+body.theme-dark .dashboard-card,
+body.theme-dark .summary-card,
+body.theme-dark .filter-section,
+body.theme-dark .goal-card,
+body.theme-dark .note-card,
+body.theme-dark .profile-card,
+body.theme-dark .stats-card,
+body.theme-dark .widget,
+body.theme-dark .stat-item,
+body.theme-dark .form-container,
+body.theme-dark .goal-meta,
+body.theme-dark .milestone-form,
+body.theme-dark .data-table thead {
+    background: #16213e !important;
+    color: #ffffff !important;
+}
+
+body.theme-dark .page-header h1,
+body.theme-dark h2,
+body.theme-dark h3,
+body.theme-dark h4,
+body.theme-dark .card-header h3,
+body.theme-dark .detail-label,
+body.theme-dark .detail-value,
+body.theme-dark .item-title,
+body.theme-dark .note-title {
+    color: #ffffff !important;
+}
+
+body.theme-dark .page-subtitle,
+body.theme-dark .subtitle,
+body.theme-dark .form-text,
+body.theme-dark .settings-info p,
+body.theme-dark .item-subtitle,
+body.theme-dark .item-time,
+body.theme-dark .note-date,
+body.theme-dark .text-muted {
+    color: #cbd5e0 !important;
+}
+
+body.theme-dark .user-menu-dropdown {
+    background: #1f2937 !important;
+}
+
+body.theme-dark .user-menu-dropdown .menu-item {
+    color: #ffffff !important;
+}
+
+body.theme-dark .user-menu-dropdown .menu-item:hover {
+    background: #2d3748 !important;
+}
+
+body.theme-dark .form-group input,
+body.theme-dark .form-group textarea,
+body.theme-dark .form-group select,
+body.theme-dark select {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+body.theme-light {
+    background: #f6f8fb !important;
+    color: #1f2937 !important;
+}
+
+body.theme-light .main-content {
+    background: #f6f8fb !important;
+}
+
+body.theme-light .main-header,
+body.theme-light .sidebar,
+body.theme-light .content-card,
+body.theme-light .form-card,
+body.theme-light .form-card-wide,
+body.theme-light .settings-card,
+body.theme-light .settings-header,
+body.theme-light .dashboard-card,
+body.theme-light .summary-card,
+body.theme-light .filter-section,
+body.theme-light .goal-card,
+body.theme-light .note-card,
+body.theme-light .profile-card,
+body.theme-light .stats-card,
+body.theme-light .widget,
+body.theme-light .stat-item,
+body.theme-light .form-container,
+body.theme-light .goal-meta,
+body.theme-light .milestone-form,
+body.theme-light .data-table thead {
+    background: #ffffff !important;
+    color: #1f2937 !important;
+}
+
+body.theme-light .page-subtitle,
+body.theme-light .subtitle,
+body.theme-light .form-text,
+body.theme-light .settings-info p,
+body.theme-light .item-subtitle,
+body.theme-light .item-time,
+body.theme-light .note-date,
+body.theme-light .text-muted {
+    color: #4b5563 !important;
+}
+
+body.theme-light .user-menu-dropdown {
+    background: #ffffff !important;
+}
+
+body.theme-light .user-menu-dropdown .menu-item {
+    color: #1f2937 !important;
+}
+
+body.theme-light .user-menu-dropdown .menu-item:hover {
+    background: #eef3fa !important;
+}

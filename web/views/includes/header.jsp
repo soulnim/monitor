@@ -43,12 +43,37 @@
 
 <script>
 (function() {
-    var savedTheme = '${sessionScope.theme != null ? sessionScope.theme : "dark"}';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    var contextPath = '${pageContext.request.contextPath}';
+
+    function ensureThemeLink() {
+        var link = document.getElementById('monitorThemeStylesheet');
+        if (!link) {
+            link = document.createElement('link');
+            link.id = 'monitorThemeStylesheet';
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+        }
+        return link;
+    }
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (document.body) {
+            document.body.setAttribute('data-theme', theme);
+            document.body.classList.remove('theme-dark', 'theme-light');
+            document.body.classList.add(theme === 'light' ? 'theme-light' : 'theme-dark');
+        }
+        ensureThemeLink().href = contextPath + '/css/theme-' + theme + '.css';
+    }
+
+    var serverTheme = '${sessionScope.theme != null ? sessionScope.theme : "dark"}';
+    var localTheme = localStorage.getItem('monitor-theme');
+    var activeTheme = localTheme || serverTheme;
+    applyTheme(activeTheme);
+    window.monitorApplyTheme = applyTheme;
 })();
 
-// Toggle user menu dropdown
-document.addEventListener('DOMContentLoaded', function() {
+function initHeaderInteractions() {
     const menuToggle = document.getElementById('userMenuToggle');
     const menuDropdown = document.getElementById('userMenuDropdown');
     const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -68,14 +93,24 @@ document.addEventListener('DOMContentLoaded', function() {
         themeToggleBtn.addEventListener('click', function() {
             const current = document.documentElement.getAttribute('data-theme') || 'dark';
             const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
+            if (window.monitorApplyTheme) {
+                window.monitorApplyTheme(next);
+            } else {
+                document.documentElement.setAttribute('data-theme', next);
+            }
             localStorage.setItem('monitor-theme', next);
         });
     }
 
-    const localTheme = localStorage.getItem('monitor-theme');
-    if (localTheme) {
-        document.documentElement.setAttribute('data-theme', localTheme);
+    const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    if (window.monitorApplyTheme) {
+        window.monitorApplyTheme(activeTheme);
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeaderInteractions);
+} else {
+    initHeaderInteractions();
+}
 </script>

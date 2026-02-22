@@ -30,9 +30,9 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 18px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -731,27 +731,110 @@ body.edit-mode .widget.dragging {
         grid-template-columns: 1fr;
     }
 }
-/* ===== Dashboard Dark/Light Refresh ===== */
-.header-left h1, .widget-title h3, .stat-value { color: var(--text-primary); }
-.page-subtitle, .stat-label, .widget-period { color: var(--text-secondary); }
-.btn-primary { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: #08121f; }
-.btn-primary:hover { box-shadow: 0 4px 12px rgba(0, 255, 135, 0.35); }
-.btn-secondary { background: var(--bg-tertiary); color: var(--text-secondary); }
-.stat-item { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); }
-.stat-item .stat-icon { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); }
-.stat-income .stat-icon { background: linear-gradient(135deg, var(--success), #00cc6f); }
-.stat-expense .stat-icon { background: linear-gradient(135deg, var(--danger), #ff5252); }
-.stat-savings .stat-icon { background: linear-gradient(135deg, var(--warning), #ffc107); }
-.stat-tasks .stat-icon { background: linear-gradient(135deg, var(--info), #00b8d4); }
-.widget { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); }
-.widget-header { border-bottom-color: rgba(255,255,255,0.06); }
-.widget-menu-btn { color: var(--text-secondary); }
-.widget-menu-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
-.stat-divider { background: rgba(255,255,255,0.08); }
-.stat-highlight { background: var(--bg-secondary); border-color: rgba(255,255,255,0.08); }
-.progress-bar-container, .progress-bar { background: var(--bg-secondary); }
-.progress-bar-fill, .progress-fill { background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)); }
-.customization-panel { background: var(--bg-secondary); border-right: 1px solid rgba(255,255,255,0.1); }
-.widget-toggle { background: var(--bg-card); border-color: rgba(255,255,255,0.08); }
-.widget-toggle:hover { background: var(--bg-hover); }
-.widget-toggle.checked { border-color: var(--accent-primary); background: rgba(0,255,135,0.08); }
+/* ===== Dashboard Theme Refresh (class-based) ===== */
+body.theme-dark .header-left h1,
+body.theme-dark .widget-title h3,
+body.theme-dark .stat-value {
+    color: #ffffff;
+}
+
+body.theme-dark .page-subtitle,
+body.theme-dark .stat-label,
+body.theme-dark .widget-period {
+    color: #cbd5e0;
+}
+
+body.theme-dark .btn-primary {
+    background: linear-gradient(135deg, #00ff87, #00d9ff);
+    color: #08121f;
+}
+
+body.theme-dark .btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(0, 255, 135, 0.35);
+}
+
+body.theme-dark .btn-secondary {
+    background: #0f3460;
+    color: #cbd5e0;
+}
+
+body.theme-dark .stat-item {
+    background: #1f2937;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.theme-dark .stat-item .stat-icon {
+    background: linear-gradient(135deg, #00ff87, #00d9ff);
+}
+
+body.theme-dark .stat-income .stat-icon {
+    background: linear-gradient(135deg, #10b981, #00cc6f);
+}
+
+body.theme-dark .stat-expense .stat-icon {
+    background: linear-gradient(135deg, #ef4444, #ff5252);
+}
+
+body.theme-dark .stat-savings .stat-icon {
+    background: linear-gradient(135deg, #f59e0b, #ffc107);
+}
+
+body.theme-dark .stat-tasks .stat-icon {
+    background: linear-gradient(135deg, #3b82f6, #00b8d4);
+}
+
+body.theme-dark .widget {
+    background: #1f2937;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.theme-dark .widget-header {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+body.theme-dark .widget-menu-btn {
+    color: #cbd5e0;
+}
+
+body.theme-dark .widget-menu-btn:hover {
+    background: #2d3748;
+    color: #ffffff;
+}
+
+body.theme-dark .stat-divider {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.theme-dark .stat-highlight {
+    background: #16213e;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.theme-dark .progress-bar-container,
+body.theme-dark .progress-bar {
+    background: #16213e;
+}
+
+body.theme-dark .progress-bar-fill,
+body.theme-dark .progress-fill {
+    background: linear-gradient(90deg, #00ff87, #00d9ff);
+}
+
+body.theme-dark .customization-panel {
+    background: #16213e;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.theme-dark .widget-toggle {
+    background: #1f2937;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.theme-dark .widget-toggle:hover {
+    background: #2d3748;
+}
+
+body.theme-dark .widget-toggle.checked {
+    border-color: #00ff87;
+    background: rgba(0, 255, 135, 0.08);
+}

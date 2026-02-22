@@ -1,0 +1,247 @@
+/* Dedicated dark theme overrides */
+body {
+    background: #1a1a2e !important;
+    color: #ffffff !important;
+}
+
+a {
+    color: #00d9ff !important;
+}
+
+.main-content {
+    background: #1a1a2e !important;
+}
+
+.main-header,
+.sidebar,
+.content-card,
+.form-card,
+.form-card-wide,
+.settings-card,
+.settings-header,
+.dashboard-card,
+.summary-card,
+.filter-section,
+.goal-card,
+.note-card,
+.profile-card,
+.stats-card,
+.widget,
+.stat-item,
+.form-container,
+.goal-meta,
+.milestone-form,
+.data-table thead,
+.customization-panel {
+    background: #16213e !important;
+    color: #ffffff !important;
+}
+
+.data-table th,
+.data-table td,
+.settings-item,
+.card-header,
+.card-footer,
+.widget-header {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.page-header h1,
+h2,
+h3,
+h4,
+.detail-label,
+.detail-value,
+.item-title,
+.note-title,
+.widget-title h3,
+.header-left h1,
+.stat-value {
+    color: #ffffff !important;
+}
+
+.page-subtitle,
+.subtitle,
+.form-text,
+.settings-info p,
+.item-subtitle,
+.item-time,
+.note-date,
+.text-muted,
+.stat-label,
+.widget-period,
+.user-greeting {
+    color: #cbd5e0 !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00ff87, #00d9ff) !important;
+    color: #08121f !important;
+}
+
+.btn-secondary {
+    background: #0f3460 !important;
+    color: #cbd5e0 !important;
+}
+
+.user-avatar,
+.stat-item .stat-icon {
+    background: linear-gradient(135deg, #00ff87, #00d9ff) !important;
+    color: #08121f !important;
+}
+
+.user-menu-dropdown {
+    background: #1f2937 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.user-menu-dropdown .menu-item {
+    color: #ffffff !important;
+}
+
+.user-menu-dropdown .menu-item:hover,
+.widget-toggle:hover,
+.widget-menu-btn:hover {
+    background: #2d3748 !important;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select,
+select {
+    background: #1f2937 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+}
+
+.table-responsive .data-table th,
+.goal-meta,
+.milestone-form,
+.progress-bar-container,
+.progress-bar,
+.stat-highlight {
+    background: #16213e !important;
+}
+
+.table-responsive .data-table td,
+.stat-divider {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.progress-bar-fill,
+.progress-fill {
+    background: linear-gradient(90deg, #00ff87, #00d9ff) !important;
+}
+
+.widget-toggle {
+    background: #1f2937 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.widget-toggle.checked {
+    border-color: #00ff87 !important;
+    background: rgba(0, 255, 135, 0.08) !important;
+}
+
+/* Darken legacy light interaction states */
+.nav-item:hover,
+.widget:hover,
+.stat-item:hover,
+.data-table tbody tr:hover,
+.event-item-compact:hover,
+.milestone-item:hover,
+.checkbox-unchecked:hover,
+.card-footer,
+.widget-footer,
+.goal-meta,
+.milestone-form,
+.stat-item .stat-icon,
+.item-date,
+.progress-category,
+.customization-panel.active {
+    background: #1f2937 !important;
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, #00ff87, #00d9ff) !important;
+    color: #08121f !important;
+}
+
+.widget.drag-over,
+body.edit-mode .widgets-grid {
+    background: #1f2937 !important;
+    border-color: #00d9ff !important;
+}
+
+.widget-menu-btn,
+.item-subtitle,
+.item-time,
+.note-date,
+.empty-subtext,
+.empty-icon,
+.more-items {
+    color: #9fb0c5 !important;
+}
+
+.badge-success {
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: #86efac !important;
+}
+
+.badge-danger {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: #fca5a5 !important;
+}
+
+.badge-warning {
+    background: rgba(245, 158, 11, 0.2) !important;
+    color: #fcd34d !important;
+}
+
+.badge-info {
+    background: rgba(59, 130, 246, 0.2) !important;
+    color: #93c5fd !important;
+}
+
+.badge-secondary {
+    background: rgba(148, 163, 184, 0.22) !important;
+    color: #d1d5db !important;
+}
+
+.priority-high {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: #fca5a5 !important;
+}
+
+.priority-medium {
+    background: rgba(245, 158, 11, 0.2) !important;
+    color: #fcd34d !important;
+}
+
+.priority-low {
+    background: rgba(59, 130, 246, 0.2) !important;
+    color: #93c5fd !important;
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.18) !important;
+    color: #86efac !important;
+    border-color: rgba(16, 185, 129, 0.45) !important;
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.18) !important;
+    color: #fca5a5 !important;
+    border-color: rgba(239, 68, 68, 0.45) !important;
+}
+
+.checkbox-unchecked {
+    background: #16213e !important;
+    border-color: #6b7280 !important;
+    color: #cbd5e0 !important;
+}
+
+.progress-bar-container,
+.progress-bar {
+    background: #0f3460 !important;
+}

@@ -1,0 +1,144 @@
+/* Dedicated light theme overrides */
+body {
+    background: #f6f8fb !important;
+    color: #1f2937 !important;
+}
+
+a {
+    color: #0ea5e9 !important;
+}
+
+.main-content {
+    background: #f6f8fb !important;
+}
+
+.main-header,
+.sidebar,
+.content-card,
+.form-card,
+.form-card-wide,
+.settings-card,
+.settings-header,
+.dashboard-card,
+.summary-card,
+.filter-section,
+.goal-card,
+.note-card,
+.profile-card,
+.stats-card,
+.widget,
+.stat-item,
+.form-container,
+.goal-meta,
+.milestone-form,
+.data-table thead,
+.customization-panel {
+    background: #ffffff !important;
+    color: #1f2937 !important;
+}
+
+.data-table th,
+.data-table td,
+.settings-item,
+.card-header,
+.card-footer,
+.widget-header {
+    border-color: #e5e7eb !important;
+}
+
+.page-header h1,
+h2,
+h3,
+h4,
+.detail-label,
+.detail-value,
+.item-title,
+.note-title,
+.widget-title h3,
+.header-left h1,
+.stat-value {
+    color: #1f2937 !important;
+}
+
+.page-subtitle,
+.subtitle,
+.form-text,
+.settings-info p,
+.item-subtitle,
+.item-time,
+.note-date,
+.text-muted,
+.stat-label,
+.widget-period,
+.user-greeting {
+    color: #4b5563 !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0ea5e9, #14b8a6) !important;
+    color: #ffffff !important;
+}
+
+.btn-secondary {
+    background: #e9eef5 !important;
+    color: #4b5563 !important;
+}
+
+.user-avatar,
+.stat-item .stat-icon {
+    background: linear-gradient(135deg, #0ea5e9, #14b8a6) !important;
+    color: #ffffff !important;
+}
+
+.user-menu-dropdown {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+.user-menu-dropdown .menu-item {
+    color: #1f2937 !important;
+}
+
+.user-menu-dropdown .menu-item:hover,
+.widget-toggle:hover,
+.widget-menu-btn:hover {
+    background: #eef3fa !important;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select,
+select {
+    background: #ffffff !important;
+    color: #1f2937 !important;
+    border-color: #d1d5db !important;
+}
+
+.table-responsive .data-table th,
+.goal-meta,
+.milestone-form,
+.progress-bar-container,
+.progress-bar,
+.stat-highlight {
+    background: #ffffff !important;
+}
+
+.table-responsive .data-table td,
+.stat-divider {
+    border-color: #e5e7eb !important;
+}
+
+.progress-bar-fill,
+.progress-fill {
+    background: linear-gradient(90deg, #0ea5e9, #14b8a6) !important;
+}
+
+.widget-toggle {
+    background: #ffffff !important;
+    border-color: #e5e7eb !important;
+}
+
+.widget-toggle.checked {
+    border-color: #0ea5e9 !important;
+    background: rgba(14, 165, 233, 0.08) !important;
+}
