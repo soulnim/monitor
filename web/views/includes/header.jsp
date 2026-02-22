@@ -43,23 +43,15 @@
 
 <script>
 (function() {
-    var serverTheme = '<c:out value="${serverTheme}" />';
-    var hasUpdatedPreferences = window.location.search.indexOf('updated=preferences') !== -1;
-    var storedTheme = localStorage.getItem('monitor-theme');
-    var themeToApply = (hasUpdatedPreferences || !storedTheme) ? serverTheme : storedTheme;
-
-    document.documentElement.setAttribute('data-theme', themeToApply);
-
-    if (hasUpdatedPreferences || !storedTheme) {
-        localStorage.setItem('monitor-theme', themeToApply);
-    }
+    var savedTheme = '${sessionScope.theme != null ? sessionScope.theme : "dark"}';
+    document.documentElement.setAttribute('data-theme', savedTheme);
 })();
 
 // Toggle user menu dropdown
 document.addEventListener('DOMContentLoaded', function() {
-    var menuToggle = document.getElementById('userMenuToggle');
-    var menuDropdown = document.getElementById('userMenuDropdown');
-    var themeToggleBtn = document.getElementById('themeToggleBtn');
+    const menuToggle = document.getElementById('userMenuToggle');
+    const menuDropdown = document.getElementById('userMenuDropdown');
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
 
     if (menuToggle && menuDropdown) {
         menuToggle.addEventListener('click', function(e) {
@@ -74,11 +66,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', function() {
-            var current = document.documentElement.getAttribute('data-theme') || 'dark';
-            var next = current === 'dark' ? 'light' : 'dark';
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('monitor-theme', next);
         });
+    }
+
+    const localTheme = localStorage.getItem('monitor-theme');
+    if (localTheme) {
+        document.documentElement.setAttribute('data-theme', localTheme);
     }
 });
 </script>
