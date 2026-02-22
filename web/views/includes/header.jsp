@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<c:set var="serverTheme" value="${empty sessionScope.theme ? 'dark' : sessionScope.theme}" />
+
 <header class="main-header">
     <div class="header-content">
         <div class="header-left">
