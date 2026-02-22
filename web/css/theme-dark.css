@@ -74,6 +74,11 @@ h4,
     color: #cbd5e0 !important;
 }
 
+.amount,
+.card-info .amount {
+    color: #ffffff !important;
+}
+
 .btn-primary {
     background: linear-gradient(135deg, #00ff87, #00d9ff) !important;
     color: #08121f !important;

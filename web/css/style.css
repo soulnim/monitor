@@ -614,13 +614,19 @@ a:hover {
 }
 
 /* Dashboard Lists */
-.task-list, .bill-list, .goal-list, .event-list, .note-list {
+.task-list,
+.bill-list,
+.goal-list,
+.event-list,
+.note-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.task-list li, .bill-list li, .event-list li {
+.task-list li,
+.bill-list li,
+.event-list li {
     padding: 8px 0;
     border-bottom: 1px solid #f0f0f0;
     display: flex;
@@ -628,7 +634,9 @@ a:hover {
     align-items: center;
 }
 
-.task-list li:last-child, .bill-list li:last-child, .event-list li:last-child {
+.task-list li:last-child,
+.bill-list li:last-child,
+.event-list li:last-child {
     border-bottom: none;
 }
 
@@ -742,7 +750,8 @@ a:hover {
     line-height: 1.5;
 }
 
-.goal-category, .goal-date {
+.goal-category,
+.goal-date {
     font-size: 14px;
     color: #7f8c8d;
     margin: 5px 0;
@@ -1062,7 +1071,8 @@ a:hover {
     margin-top: 20px;
 }
 
-.profile-card, .stats-card {
+.profile-card,
+.stats-card {
     background: white;
     border-radius: 8px;
     padding: 30px;
@@ -1341,11 +1351,11 @@ a:hover {
     border-radius: 50%;
 }
 
-.toggle-switch input:checked + .toggle-slider {
+.toggle-switch input:checked+.toggle-slider {
     background-color: #3498db;
 }
 
-.toggle-switch input:checked + .toggle-slider:before {
+.toggle-switch input:checked+.toggle-slider:before {
     transform: translateX(26px);
 }
 
@@ -1354,17 +1364,17 @@ a:hover {
     .profile-container {
         grid-template-columns: 1fr;
     }
-    
+
     .settings-item {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
     }
-    
+
     .settings-action {
         width: 100%;
     }
-    
+
     .settings-select {
         width: 100%;
     }
@@ -1426,187 +1436,56 @@ a:hover {
     .dashboard-container {
         flex-direction: column;
     }
-    
+
     .sidebar {
         width: 100%;
     }
-    
+
     .sidebar-nav {
         display: flex;
         overflow-x: auto;
         padding: 0;
     }
-    
+
     .nav-item {
         flex-shrink: 0;
     }
-    
+
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .form-container {
         margin: 20px;
         padding: 30px 20px;
     }
-    
+
     .page-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
     }
-    
+
     .summary-cards {
         grid-template-columns: 1fr;
     }
-    
+
     .filter-form .form-row {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .table-responsive {
         overflow-x: scroll;
     }
-    
+
     .data-table {
         min-width: 600px;
     }
 }
-/* ===== Theme System (Parser-safe, class-based) ===== */
-.btn-theme-toggle { width: auto; padding: 8px 12px; }
-.progress-danger { background: linear-gradient(90deg, #ef4444, #ff8a8a) !important; }
 
-/* Fallback theme layer for environments with weak CSS variable support */
-body.theme-dark {
-    background: #1a1a2e !important;
-    color: #ffffff !important;
-}
-
-body.theme-dark .main-content {
-    background: #1a1a2e !important;
-}
-
-body.theme-dark .main-header,
-body.theme-dark .sidebar,
-body.theme-dark .content-card,
-body.theme-dark .form-card,
-body.theme-dark .form-card-wide,
-body.theme-dark .settings-card,
-body.theme-dark .settings-header,
-body.theme-dark .dashboard-card,
-body.theme-dark .summary-card,
-body.theme-dark .filter-section,
-body.theme-dark .goal-card,
-body.theme-dark .note-card,
-body.theme-dark .profile-card,
-body.theme-dark .stats-card,
-body.theme-dark .widget,
-body.theme-dark .stat-item,
-body.theme-dark .form-container,
-body.theme-dark .goal-meta,
-body.theme-dark .milestone-form,
-body.theme-dark .data-table thead {
-    background: #16213e !important;
-    color: #ffffff !important;
-}
-
-body.theme-dark .page-header h1,
-body.theme-dark h2,
-body.theme-dark h3,
-body.theme-dark h4,
-body.theme-dark .card-header h3,
-body.theme-dark .detail-label,
-body.theme-dark .detail-value,
-body.theme-dark .item-title,
-body.theme-dark .note-title {
-    color: #ffffff !important;
-}
-
-body.theme-dark .page-subtitle,
-body.theme-dark .subtitle,
-body.theme-dark .form-text,
-body.theme-dark .settings-info p,
-body.theme-dark .item-subtitle,
-body.theme-dark .item-time,
-body.theme-dark .note-date,
-body.theme-dark .text-muted {
-    color: #cbd5e0 !important;
-}
-
-body.theme-dark .user-menu-dropdown {
-    background: #1f2937 !important;
-}
-
-body.theme-dark .user-menu-dropdown .menu-item {
-    color: #ffffff !important;
-}
-
-body.theme-dark .user-menu-dropdown .menu-item:hover {
-    background: #2d3748 !important;
-}
-
-body.theme-dark .form-group input,
-body.theme-dark .form-group textarea,
-body.theme-dark .form-group select,
-body.theme-dark select {
-    background: #1f2937 !important;
-    color: #ffffff !important;
-    border-color: transparent !important;
-}
-
-body.theme-light {
-    background: #f6f8fb !important;
-    color: #1f2937 !important;
-}
-
-body.theme-light .main-content {
-    background: #f6f8fb !important;
-}
-
-body.theme-light .main-header,
-body.theme-light .sidebar,
-body.theme-light .content-card,
-body.theme-light .form-card,
-body.theme-light .form-card-wide,
-body.theme-light .settings-card,
-body.theme-light .settings-header,
-body.theme-light .dashboard-card,
-body.theme-light .summary-card,
-body.theme-light .filter-section,
-body.theme-light .goal-card,
-body.theme-light .note-card,
-body.theme-light .profile-card,
-body.theme-light .stats-card,
-body.theme-light .widget,
-body.theme-light .stat-item,
-body.theme-light .form-container,
-body.theme-light .goal-meta,
-body.theme-light .milestone-form,
-body.theme-light .data-table thead {
-    background: #ffffff !important;
-    color: #1f2937 !important;
-}
-
-body.theme-light .page-subtitle,
-body.theme-light .subtitle,
-body.theme-light .form-text,
-body.theme-light .settings-info p,
-body.theme-light .item-subtitle,
-body.theme-light .item-time,
-body.theme-light .note-date,
-body.theme-light .text-muted {
-    color: #4b5563 !important;
-}
-
-body.theme-light .user-menu-dropdown {
-    background: #ffffff !important;
-}
-
-body.theme-light .user-menu-dropdown .menu-item {
-    color: #1f2937 !important;
-}
-
-body.theme-light .user-menu-dropdown .menu-item:hover {
-    background: #eef3fa !important;
+/* Dedicated theme files handle dark/light appearance */
+.btn-theme-toggle {
+    width: auto;
+    padding: 8px 12px;
 }

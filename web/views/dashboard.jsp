@@ -28,7 +28,7 @@
                     <p class="page-subtitle">Welcome back! Here's your personalized overview</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn-primary" id="customizeToggleBtn">
+                    <button class="btn btn-primary" id="customizeToggleBtn">
                         <span class="icon">⚙️</span> <span id="customizeBtnText">Customize</span>
                     </button>
                 </div>
