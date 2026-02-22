@@ -1475,36 +1475,36 @@ a:hover {
 }
 /* ===== Theme System Upgrade ===== */
 :root {
-    --bg-primary: #1a1a2e;
-    --bg-secondary: #16213e;
-    --bg-tertiary: #0f3460;
-    --bg-card: #1f2937;
-    --bg-hover: #2d3748;
-    --text-primary: #ffffff;
-    --text-secondary: #cbd5e0;
-    --text-muted: #718096;
-    --accent-primary: #00ff87;
-    --accent-secondary: #00d9ff;
-    --danger: #ff6b6b;
-    --success: #00ff87;
-    --warning: #ffd700;
+    --bg-primary: #1a1a2e,
+    --bg-secondary: #16213e,
+    --bg-tertiary: #0f3460,
+    --bg-card: #1f2937,
+    --bg-hover: #2d3748,
+    --text-primary: #ffffff,
+    --text-secondary: #cbd5e0,
+    --text-muted: #718096,
+    --accent-primary: #00ff87,
+    --accent-secondary: #00d9ff,
+    --danger: #ff6b6b,
+    --success: #00ff87,
+    --warning: #ffd700,
     --info: #00d9ff;
 }
 
 :root[data-theme="light"] {
-    --bg-primary: #f6f8fb;
-    --bg-secondary: #ffffff;
-    --bg-tertiary: #e9eef5;
-    --bg-card: #ffffff;
-    --bg-hover: #eef3fa;
-    --text-primary: #1f2937;
-    --text-secondary: #4b5563;
-    --text-muted: #6b7280;
-    --accent-primary: #0ea5e9;
-    --accent-secondary: #14b8a6;
-    --danger: #ef4444;
-    --success: #10b981;
-    --warning: #f59e0b;
+    --bg-primary: #f6f8fb,
+    --bg-secondary: #ffffff,
+    --bg-tertiary: #e9eef5,
+    --bg-card: #ffffff,
+    --bg-hover: #eef3fa,
+    --text-primary: #1f2937,
+    --text-secondary: #4b5563,
+    --text-muted: #6b7280,
+    --accent-primary: #0ea5e9,
+    --accent-secondary: #14b8a6,
+    --danger: #ef4444,
+    --success: #10b981,
+    --warning: #f59e0b,
     --info: #3b82f6;
 }
 
