@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="settings-action">
                                     <label class="toggle-switch">
-                                        <input type="checkbox" name="emailNotifications" value="true" checked>
+                                        <input type="checkbox" name="emailNotifications" value="true" ${preference.emailNotifications ? 'checked' : ''}>
                                         <span class="toggle-slider"></span>
                                     </label>
                                 </div>
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="settings-action">
                                     <label class="toggle-switch">
-                                        <input type="checkbox" name="billReminders" value="true" checked>
+                                        <input type="checkbox" name="billReminders" value="true" ${preference.billReminders ? 'checked' : ''}>
                                         <span class="toggle-slider"></span>
                                     </label>
                                 </div>
@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="settings-action">
                                     <label class="toggle-switch">
-                                        <input type="checkbox" name="taskReminders" value="true" checked>
+                                        <input type="checkbox" name="taskReminders" value="true" ${preference.taskReminders ? 'checked' : ''}>
                                         <span class="toggle-slider"></span>
                                     </label>
                                 </div>
@@ -142,9 +142,8 @@
                                 </div>
                                 <div class="settings-action">
                                     <select name="theme" class="settings-select">
-                                        <option value="light" selected>Light</option>
-                                        <option value="dark">Dark (Coming Soon)</option>
-                                        <option value="auto">Auto (Coming Soon)</option>
+                                        <option value="dark" ${preference.theme == 'dark' ? 'selected' : ''}>Dark</option>
+                                        <option value="light" ${preference.theme == 'light' ? 'selected' : ''}>Light</option>
                                     </select>
                                 </div>
                             </div>
@@ -156,9 +155,7 @@
                                 </div>
                                 <div class="settings-action">
                                     <select name="language" class="settings-select">
-                                        <option value="en" selected>English</option>
-                                        <option value="es">Spanish (Coming Soon)</option>
-                                        <option value="fr">French (Coming Soon)</option>
+                                        <option value="en" ${preference.language == 'en' ? 'selected' : ''}>English</option>
                                     </select>
                                 </div>
                             </div>
@@ -170,9 +167,9 @@
                                 </div>
                                 <div class="settings-action">
                                     <select name="dateFormat" class="settings-select">
-                                        <option value="MM/DD/YYYY" selected>MM/DD/YYYY</option>
-                                        <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-                                        <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                        <option value="MM/DD/YYYY" ${preference.dateFormat == 'MM/DD/YYYY' ? 'selected' : ''}>MM/DD/YYYY</option>
+                                        <option value="DD/MM/YYYY" ${preference.dateFormat == 'DD/MM/YYYY' ? 'selected' : ''}>DD/MM/YYYY</option>
+                                        <option value="YYYY-MM-DD" ${preference.dateFormat == 'YYYY-MM-DD' ? 'selected' : ''}>YYYY-MM-DD</option>
                                     </select>
                                 </div>
                             </div>
@@ -184,10 +181,10 @@
                                 </div>
                                 <div class="settings-action">
                                     <select name="currency" class="settings-select">
-                                        <option value="USD" selected>USD ($)</option>
-                                        <option value="EUR">EUR (€)</option>
-                                        <option value="GBP">GBP (£)</option>
-                                        <option value="JPY">JPY (¥)</option>
+                                        <option value="USD" ${preference.currency == 'USD' ? 'selected' : ''}>USD ($)</option>
+                                        <option value="EUR" ${preference.currency == 'EUR' ? 'selected' : ''}>EUR (€)</option>
+                                        <option value="GBP" ${preference.currency == 'GBP' ? 'selected' : ''}>GBP (£)</option>
+                                        <option value="JPY" ${preference.currency == 'JPY' ? 'selected' : ''}>JPY (¥)</option>
                                     </select>
                                 </div>
                             </div>
@@ -215,9 +212,9 @@
                                 </div>
                                 <div class="settings-action">
                                     <select name="profileVisibility" class="settings-select">
-                                        <option value="private" selected>Private</option>
-                                        <option value="friends">Friends Only</option>
-                                        <option value="public">Public</option>
+                                        <option value="private" ${preference.profileVisibility == 'private' ? 'selected' : ''}>Private</option>
+                                        <option value="friends" ${preference.profileVisibility == 'friends' ? 'selected' : ''}>Friends Only</option>
+                                        <option value="public" ${preference.profileVisibility == 'public' ? 'selected' : ''}>Public</option>
                                     </select>
                                 </div>
                             </div>
@@ -229,7 +226,7 @@
                                 </div>
                                 <div class="settings-action">
                                     <label class="toggle-switch">
-                                        <input type="checkbox" name="dataSharing" value="true">
+                                        <input type="checkbox" name="dataSharing" value="true" ${preference.dataSharing ? 'checked' : ''}>
                                         <span class="toggle-slider"></span>
                                     </label>
                                 </div>
@@ -241,7 +238,7 @@
                                     <p>Add an extra layer of security</p>
                                 </div>
                                 <div class="settings-action">
-                                    <span class="badge badge-secondary">Coming Soon</span>
+                                    <span class="badge badge-success">Enabled via authenticator apps (next phase)</span>
                                 </div>
                             </div>
                             
@@ -264,7 +261,7 @@
                                 <p>Download all your data in CSV format</p>
                             </div>
                             <div class="settings-action">
-                                <button class="btn btn-secondary" disabled>Export (Coming Soon)</button>
+                                <button class="btn btn-secondary" onclick="alert('CSV export will be added in the next update.'); return false;">Export Data</button>
                             </div>
                         </div>
                         

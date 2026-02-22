@@ -255,7 +255,7 @@
                                                     <div class="progress-bar-fill" style="width: ${goal.completionPercentage}%"></div>
                                                 </div>
                                                 <div class="progress-meta">
-                                                    <span class="progress-category">${goal.category}</span>
+                                                    <span class="progress-category">${goal.categoryName}</span>
                                                     <span class="progress-deadline">
                                                         <fmt:formatDate value="${goal.targetDate}" pattern="MMM dd, yyyy" />
                                                     </span>
@@ -274,7 +274,51 @@
                     </div>
                 </div>
                 
-                <!-- Income vs Expenses Trend Chart -->
+
+                <!-- Budget Overview Widget -->
+                <div class="widget" data-widget-id="budget-overview" data-widget-type="progress">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <span class="widget-icon">📉</span>
+                            <h3>Budget Overview</h3>
+                        </div>
+                        <div class="widget-controls">
+                            <span class="widget-period">This Month</span>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <c:choose>
+                            <c:when test="${empty budgetOverview}">
+                                <div class="empty-state">
+                                    <span class="empty-icon">📉</span>
+                                    <p>No budgets set for this month</p>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <ul class="progress-list">
+                                    <c:forEach items="${budgetOverview}" var="budget" varStatus="status">
+                                        <c:if test="${status.index < 3}">
+                                            <li class="progress-item">
+                                                <div class="progress-header">
+                                                    <span class="progress-title"><c:out value="${budget.categoryName}" /></span>
+                                                    <span class="progress-percent">$<fmt:formatNumber value="${budget.spentAmount}" pattern="#,##0.00" /> / $<fmt:formatNumber value="${budget.budgetLimit}" pattern="#,##0.00" /></span>
+                                                </div>
+                                                <div class="progress-bar-container">
+                                                    <div class="progress-bar-fill" style="width: ${budget.usagePercentage > 100 ? 100 : budget.usagePercentage}%"></div>
+                                                </div>
+                                            </li>
+                                        </c:if>
+                                    </c:forEach>
+                                </ul>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <div class="widget-footer">
+                        <a href="${pageContext.request.contextPath}/budgets" class="widget-link">Manage Budgets <span class="arrow">→</span></a>
+                    </div>
+                </div>
+
+                                <!-- Income vs Expenses Trend Chart -->
                 <div class="widget widget-chart widget-wide" data-widget-id="trend-chart" data-widget-type="chart">
                     <div class="widget-header">
                         <div class="widget-title">
@@ -432,6 +476,13 @@
                 <span class="toggle-label">
                     <span class="toggle-icon">🎯</span>
                     <span>Active Goals</span>
+                </span>
+            </label>
+            <label class="widget-toggle">
+                <input type="checkbox" name="widget" value="budget-overview" checked>
+                <span class="toggle-label">
+                    <span class="toggle-icon">📉</span>
+                    <span>Budget Overview</span>
                 </span>
             </label>
             

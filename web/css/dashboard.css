@@ -731,3 +731,27 @@ body.edit-mode .widget.dragging {
         grid-template-columns: 1fr;
     }
 }
+/* ===== Dashboard Dark/Light Refresh ===== */
+.header-left h1, .widget-title h3, .stat-value { color: var(--text-primary); }
+.page-subtitle, .stat-label, .widget-period { color: var(--text-secondary); }
+.btn-primary { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: #08121f; }
+.btn-primary:hover { box-shadow: 0 4px 12px rgba(0, 255, 135, 0.35); }
+.btn-secondary { background: var(--bg-tertiary); color: var(--text-secondary); }
+.stat-item { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); }
+.stat-item .stat-icon { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); }
+.stat-income .stat-icon { background: linear-gradient(135deg, var(--success), #00cc6f); }
+.stat-expense .stat-icon { background: linear-gradient(135deg, var(--danger), #ff5252); }
+.stat-savings .stat-icon { background: linear-gradient(135deg, var(--warning), #ffc107); }
+.stat-tasks .stat-icon { background: linear-gradient(135deg, var(--info), #00b8d4); }
+.widget { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); }
+.widget-header { border-bottom-color: rgba(255,255,255,0.06); }
+.widget-menu-btn { color: var(--text-secondary); }
+.widget-menu-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+.stat-divider { background: rgba(255,255,255,0.08); }
+.stat-highlight { background: var(--bg-secondary); border-color: rgba(255,255,255,0.08); }
+.progress-bar-container, .progress-bar { background: var(--bg-secondary); }
+.progress-bar-fill, .progress-fill { background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)); }
+.customization-panel { background: var(--bg-secondary); border-right: 1px solid rgba(255,255,255,0.1); }
+.widget-toggle { background: var(--bg-card); border-color: rgba(255,255,255,0.08); }
+.widget-toggle:hover { background: var(--bg-hover); }
+.widget-toggle.checked { border-color: var(--accent-primary); background: rgba(0,255,135,0.08); }

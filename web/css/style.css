@@ -1473,3 +1473,152 @@ a:hover {
         min-width: 600px;
     }
 }
+/* ===== Theme System Upgrade ===== */
+:root,
+html[data-theme="dark"] {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-tertiary: #0f3460;
+    --bg-card: #1f2937;
+    --bg-hover: #2d3748;
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e0;
+    --text-muted: #718096;
+    --accent-primary: #00ff87;
+    --accent-secondary: #00d9ff;
+    --danger: #ff6b6b;
+    --success: #00ff87;
+    --warning: #ffd700;
+    --info: #00d9ff;
+}
+
+html[data-theme="light"] {
+    --bg-primary: #f6f8fb;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #e9eef5;
+    --bg-card: #ffffff;
+    --bg-hover: #eef3fa;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+    --accent-primary: #0ea5e9;
+    --accent-secondary: #14b8a6;
+    --danger: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+a {
+    color: var(--accent-secondary);
+}
+
+.main-header,
+.sidebar,
+.content-card,
+.form-card,
+.settings-card,
+.widget,
+.stat-item,
+.data-table,
+.form-container {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.main-content {
+    background: var(--bg-primary);
+}
+
+.sidebar .nav-item,
+.user-greeting,
+.page-subtitle,
+.subtitle,
+.form-text,
+.settings-info p {
+    color: var(--text-secondary);
+}
+
+.sidebar .nav-item.active {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: #08121f;
+}
+
+.user-avatar {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: #08121f;
+}
+
+.user-menu-dropdown {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-menu-dropdown .menu-item {
+    color: var(--text-primary);
+}
+
+.user-menu-dropdown .menu-item:hover {
+    background: var(--bg-hover);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select,
+select {
+    background: var(--bg-card);
+    border-color: transparent;
+    color: var(--text-primary);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+select:focus {
+    border-color: var(--accent-primary);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: #08121f;
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+    border-color: rgba(16, 185, 129, 0.4);
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--danger);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+.table-responsive .data-table th {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.table-responsive .data-table td {
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.btn-theme-toggle {
+    width: auto;
+    padding: 8px 12px;
+}
+
+.progress-danger {
+    background: linear-gradient(90deg, var(--danger), #ff8a8a) !important;
+}

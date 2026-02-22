@@ -227,3 +227,20 @@ CREATE INDEX idx_bills_user_due_date ON bills(user_id, due_date);
 CREATE INDEX idx_events_user_date ON events(user_id, event_date);
 CREATE INDEX idx_goals_user_status ON goals(user_id, status);
 CREATE INDEX idx_categories_user_type ON categories(user_id, category_type);
+-- =====================================================
+-- 14. USER_PREFERENCES TABLE
+-- =====================================================
+CREATE TABLE user_preferences (
+    user_id INTEGER NOT NULL,
+    email_notifications SMALLINT DEFAULT 1,
+    bill_reminders SMALLINT DEFAULT 1,
+    task_reminders SMALLINT DEFAULT 1,
+    theme VARCHAR(10) DEFAULT 'dark',
+    language VARCHAR(10) DEFAULT 'en',
+    date_format VARCHAR(20) DEFAULT 'MM/DD/YYYY',
+    currency VARCHAR(10) DEFAULT 'USD',
+    profile_visibility VARCHAR(20) DEFAULT 'private',
+    data_sharing SMALLINT DEFAULT 0,
+    CONSTRAINT pk_user_preferences PRIMARY KEY (user_id),
+    CONSTRAINT fk_user_preferences_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
